@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synchronous vs Asynchronous Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">CS3551 · DISTRIBUTED COMPUTING</p>
+      <h1>Execution Model Simulator</h1>
+      <p class="subhead">Compare synchronous and asynchronous process communication</p>
+    </div>
+    <span class="status-pill"><span class="dot"></span> Local simulation</span>
+  </header>
+
+  <main class="container">
+    <section class="intro panel">
+      <div>
+        <h2>How does it work?</h2>
+        <p>Run the same set of simulated processes in two execution models. Observe how waiting, message delays and response handling affect completion.</p>
+      </div>
+      <div class="concepts">
+        <div><b>Synchronous</b><span>Sender waits for the receiver's response before continuing.</span></div>
+        <div><b>Asynchronous</b><span>Sender continues after sending; responses are handled later.</span></div>
+      </div>
+    </section>
+
+    <section class="panel controls">
+      <div class="section-heading">
+        <div><p class="eyebrow">CONFIGURATION</p><h2>Simulation settings</h2></div>
+        <button class="btn btn-light" id="resetBtn">Reset</button>
+      </div>
+      <div class="form-grid">
+        <label>Number of processes
+          <select id="processCount">
+            <option value="3">3 processes</option>
+            <option value="4" selected>4 processes</option>
+            <option value="5">5 processes</option>
+          </select>
+        </label>
+        <label>Communication delay (ms)
+          <input id="delay" type="number" min="100" max="3000" step="100" value="800">
+        </label>
+        <label>Processing time per process (ms)
+          <input id="processing" type="number" min="100" max="2000" step="100" value="500">
+        </label>
+        <label>Response time (ms)
+          <input id="response" type="number" min="100" max="2000" step="100" value="400">
+        </label>
+      </div>
+      <div class="run-actions">
+        <button class="btn btn-primary" id="syncBtn">▶ Run Synchronous</button>
+        <button class="btn btn-secondary" id="asyncBtn">▶ Run Asynchronous</button>
+        <button class="btn btn-outline" id="bothBtn">Run Both & Compare</button>
+      </div>
+      <p class="hint">Use the same settings for a fair comparison. Values are simulated milliseconds, not real network measurements.</p>
+    </section>
+
+    <section class="comparison-grid">
+      <article class="panel model-card">
+        <div class="model-title"><div><p class="eyebrow">MODEL 01</p><h2>Synchronous</h2></div><span class="tag sync-tag">Blocking</span></div>
+        <p class="model-description">Each process waits for the communication response before starting its next step.</p>
+        <div class="metric"><span>Total completion time</span><strong id="syncTime">—</strong></div>
+        <div class="progress-track"><div id="syncProgress" class="progress-fill sync-fill"></div></div>
+        <div id="syncProcesses" class="process-list"><p class="empty">Run the simulation to see process activity.</p></div>
+      </article>
+      <article class="panel model-card">
+        <div class="model-title"><div><p class="eyebrow">MODEL 02</p><h2>Asynchronous</h2></div><span class="tag async-tag">Non-blocking</span></div>
+        <p class="model-description">Processes continue after sending messages; responses are received independently.</p>
+        <div class="metric"><span>Total completion time</span><strong id="asyncTime">—</strong></div>
+        <div class="progress-track"><div id="asyncProgress" class="progress-fill async-fill"></div></div>
+        <div id="asyncProcesses" class="process-list"><p class="empty">Run the simulation to see process activity.</p></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">EVENT TRACE</p><h2>Communication timeline</h2></div><span id="runStatus" class="tag neutral-tag">Waiting to run</span></div>
+      <div id="timeline" class="timeline"><p class="empty">Simulation events will appear here.</p></div>
+    </section>
+
+    <section class="panel results">
+      <div class="section-heading"><div><p class="eyebrow">ANALYSIS</p><h2>Performance comparison</h2></div></div>
+      <div class="chart-wrap"><canvas id="comparisonChart"></canvas></div>
+      <div id="summary" class="summary">Run both models to generate a comparison summary.</div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">KEY LEARNING</p>
+      <h2>What should you observe?</h2>
+      <div class="learning-grid">
+        <div><b>Waiting behaviour</b><p>Synchronous execution includes waiting for each response before moving forward.</p></div>
+        <div><b>Independent progress</b><p>Asynchronous execution allows a process to continue while a message is in transit.</p></div>
+        <div><b>Trade-off</b><p>Asynchronous systems can improve responsiveness but need careful response tracking and error handling.</p></div>
+      </div>
+    </section>
+    <footer>CS3551 Distributed Computing · Project-Based Assignment · Educational simulator</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
